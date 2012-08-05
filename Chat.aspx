@@ -9,27 +9,30 @@
         $(function () {
 
             var chat = $.connection.chat;
-            chat.addMessage = function (message) {
+
+            chat.Echo = function (message) {
                 $('#messages').append('<li>' + message + '');
-                $("#messages li").last().stop().css("background-color", "#FFFF00").animate({ backgroundColor: "#FFFFFF" }, 3000); 
+                $("#messages li").last().stop().css("background-color", "#FFFF00").animate({ backgroundColor: "#FFFFFF" }, 3000);
             };
 
             $("#broadcast").click(function () {
                 var msg = $('#msg');
-                chat.send(msg.val());
-                msg.val('');
-                msg.focus();
-                
+                chat.say(msg.val());
+                msg.val('').focus();
                 return false;
             });
-
             $.connection.hub.start();
-            $("#dialog").dialog({ title: 'Chat', width: 600 });
+
+            $("#dialog").dialog({ title: 'Chat', width: 800, height: 400, modal: true, close: function () {
+                chat.say("GG");
+            }
+            });
 
 
 
         });
     </script>
+    <h2>Chat</h2>
     <div id="dialog">
         <input id="msg" />
         <input id="broadcast" type="submit" value="OK" />
