@@ -11,6 +11,7 @@
             var chat = $.connection.chat;
             chat.addMessage = function (message) {
                 $('#messages').append('<li>' + message + '');
+                $("#messages li").last().stop().css("background-color", "#FFFF00").animate({ backgroundColor: "#FFFFFF" }, 3000); 
             };
 
             $("#broadcast").click(function () {
@@ -18,11 +19,15 @@
                 chat.send(msg.val());
                 msg.val('');
                 msg.focus();
+                
                 return false;
             });
 
             $.connection.hub.start();
             $("#dialog").dialog({ title: 'Chat', width: 600 });
+
+
+
         });
     </script>
     <div id="dialog">
