@@ -1,17 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
+using SignalR;
+using System.Threading.Tasks;
+using SignalR.Hubs;
 
-/// <summary>
-/// Summary description for Classes
-/// </summary>
-public class Classes
+//public class MyConnection : PersistentConnection
+//{
+//    protected override Task OnReceivedAsync(string clientId, string data)
+//    {
+//        // Broadcast data to all clients        
+//        return Connection.Broadcast(data);
+//    }
+//}
+
+public class Chat : Hub
 {
-	public Classes()
-	{
-		//
-		// TODO: Add constructor logic here
-		//
-	}
+    public void Send(string message)
+    {
+        // Call the addMessage method on all clients  
+
+        var user = HttpContext.Current.Request.ServerVariables["AUTH_USER"];
+        var dt = string.Format("{0:hh:mm:ss}", DateTime.Now);
+        Clients.addMessage(dt + " : " + user + " => " + message);
+    }
 }
