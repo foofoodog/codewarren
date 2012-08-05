@@ -7,14 +7,12 @@
     <script src="signalr/hubs" type="text/javascript"></script>
     <script type="text/javascript">
         $(function () {
-
             var chat = $.connection.chat;
-
             chat.Echo = function (message) {
                 $('#messages').append('<li>' + message + '');
                 $("#messages li").last().stop().css("background-color", "#FFFF00").animate({ backgroundColor: "#FFFFFF" }, 3000);
+                $("#dialog").dialog("open");
             };
-
             $("#broadcast").click(function () {
                 var msg = $('#msg');
                 chat.say(msg.val());
@@ -22,17 +20,14 @@
                 return false;
             });
             $.connection.hub.start();
-
-            $("#dialog").dialog({ title: 'Chat', width: 800, height: 400, modal: true, close: function () {
-                chat.say("GG");
-            }
-            });
-
-
-
+            $("#dialog").dialog({ title: 'Chat', width: 800, height: 400, modal: true});
+            $(window).bind("beforeunload", function() { chat.say("Bye");});
         });
     </script>
-    <h2>Chat</h2>
+     
+        <h2><a href="#" onclick="$('#dialog').dialog('open')">Chat</a></h2>
+    
+
     <div id="dialog">
         <input id="msg" />
         <input id="broadcast" type="submit" value="OK" />
